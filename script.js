@@ -3,6 +3,13 @@ const createElements = arr => {
     return htmlElements.join(" ")
 }
 
+function pronounceWord(word) {
+  const utterance = new SpeechSynthesisUtterance(word);
+  utterance.lang = "en-EN"; // English
+  window.speechSynthesis.speak(utterance);
+}
+
+
 const manageSpinner = status => {
   if(status === true) {
     document.getElementById('spinner').classList.remove('hidden')
@@ -69,7 +76,6 @@ const displayWordDetails = (word) => {
   
 }
 
-
 const displayLevelWord = (words) => {
   const wordContainer = document.getElementById('word-container');
   wordContainer.innerHTML = '';
@@ -97,7 +103,7 @@ const displayLevelWord = (words) => {
             <div class="font-bangla text-2xl">"${word.meaning ? word.meaning : "অর্থ পাওয়া যায় নি"} / ${word.pronunciation ? word.pronunciation : "উচ্চারণ পাওয়া যায় নি"}"</div>
             <div class="flex justify-between">
                 <button onclick="loadWordDetails(${word.id})" class="bg-[#1A91FF10] hover:bg-[#1A91FF80] p-3 rounded-lg"><i class="fa-solid fa-circle-info"></i></button>
-                <button class="bg-[#1A91FF10] hover:bg-[#1A91FF80] p-3 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
+                <button onclick="pronounceWord('${word.word}')" class="bg-[#1A91FF10] hover:bg-[#1A91FF80] p-3 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
             </div>
         </div>                    
       `
@@ -105,7 +111,6 @@ const displayLevelWord = (words) => {
   })
   manageSpinner(false)
 }
-
 
 const displayLesson = (lessons) => {
   const lessonsContainer = document.getElementById('level-container');
@@ -119,7 +124,6 @@ const displayLesson = (lessons) => {
     
 }
 loadLessons()
-
 
 
 document.getElementById('btn-search').addEventListener('click' , () => {
